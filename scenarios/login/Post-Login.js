@@ -7,6 +7,7 @@ export let getLoginReqs = new Counter("get_login_reqs");
 
 export default function () {
   const url = "http://localhost:8080/api/atendente";
+
   const payload = JSON.stringify({
     email: "user@gmail.com",
     senha: "senha",
