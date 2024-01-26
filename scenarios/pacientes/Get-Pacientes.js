@@ -1,4 +1,5 @@
 import { Counter, Rate, Trend } from "k6/metrics";
+import http from "k6/http";
 
 export let getPacientesDuration = new Trend("get_pacientes_duration");
 export let getPacientesFailRate = new Rate("get_pacientes_fail_rate");

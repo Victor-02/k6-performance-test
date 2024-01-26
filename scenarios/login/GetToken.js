@@ -1,5 +1,5 @@
 import http from "k6/http";
-import { check } from "k6";
+import { check, http } from "k6";
 
 let headers = null;
 
