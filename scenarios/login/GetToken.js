@@ -1,26 +1,34 @@
-import http from "k6/http";
-import { check, http } from "k6";
+export default () => {
 
-let headers = null;
-
-export default function () {
   const payload = {
     email: "user@gmail.com",
     senha: "senha",
   };
 
-  const res = http.post(
-    "http://localhost:8080/api/atendente/login",
-    JSON.stringify(payload),
-    { "Content-Type": "application/json" }
-  );
+  let headers;  // Declare headers variable outside the fetch
 
-  check(res, {
-    "Requisição de login bem-sucedida": (r) => r.status === 200,
-  });
+  fetch("http://localhost:8080/api/atendente/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      return res.json();  // Parse the response JSON
+    })
+    .then((data) => {
+      console.log(data);  // Check the structure of the response data
+      headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + data.token,  // Access the token from the response
+      };
+      // Perform actions with headers here or return them if needed
+      return headers;
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 
-  headers = {
-    Authorization: `Bearer ${res.json("token")}`,
-    "Content-Type": "application/json",
-  };
 }

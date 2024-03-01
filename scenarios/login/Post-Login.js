@@ -14,20 +14,18 @@ export function handleSummary(data) {
 
 export default function () {
   const url = "http://localhost:8080/api/user/login";
-
   const payload = JSON.stringify({
     email: "user@gmail.com",
     senha: "senha",
-  })
-
+  });
   let res = http.post(url, payload, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   });
 
   postLoginFailRate.add(res.status !== 200);
   postLoginReqs.add(1);
 
   check(res, {
-    'response code was 200': (res) => res.status == 200,
+    "response code was 200": (res) => res.status == 200,
   });
 }
